@@ -1,0 +1,208 @@
+{
+  "pairs": [
+    {
+      "pair_id": 1,
+      "duration": 10.047089576721191,
+      "left_image": {
+        "path": "images\\happy\\image10.jpg",
+        "category": "happy",
+        "filename": "image10.jpg"
+      },
+      "right_image": {
+        "path": "images\\angry\\image1.jpg",
+        "category": "angry",
+        "filename": "image1.jpg"
+      },
+      "gaze_distribution": {
+        "left": 0,
+        "right": 0,
+        "outside": 1.0
+      },
+      "emotions": {
+        "dominant": "neutral",
+        "counts": {
+          "neutral": 14,
+          "surprise": 1,
+          "happy": 3,
+          "sad": 1
+        },
+        "average_scores": {
+          "angry": 0.03955364058292699,
+          "disgust": 0.012288912245009402,
+          "fear": 0.01248335643428669,
+          "happy": 0.07172623397467308,
+          "sad": 0.02732885043480684,
+          "surprise": 0.08732887138876956,
+          "neutral": 0.7492901349395273
+        }
+      }
+    },
+    {
+      "pair_id": 2,
+      "duration": 10.049675703048706,
+      "left_image": {
+        "path": "images\\angry\\image4.jpg",
+        "category": "angry",
+        "filename": "image4.jpg"
+      },
+      "right_image": {
+        "path": "images\\neutral\\image13.jpg",
+        "category": "neutral",
+        "filename": "image13.jpg"
+      },
+      "gaze_distribution": {
+        "left": 0,
+        "right": 0,
+        "outside": 1.0
+      },
+      "emotions": {
+        "dominant": "happy",
+        "counts": {
+          "happy": 20
+        },
+        "average_scores": {
+          "happy": 0.3669577943319019,
+          "sad": 0.019313568122731682,
+          "neutral": 0.01351949768591218,
+          "surprise": 0.3669577943319019,
+          "angry": 0.15635651400464318,
+          "fear": 0.03870579415982326,
+          "disgust": 0.03818903736308586
+        }
+      }
+    },
+    {
+      "pair_id": 3,
+      "duration": 10.069923639297485,
+      "left_image": {
+        "path": "images\\angry\\image4.jpg",
+        "category": "angry",
+        "filename": "image4.jpg"
+      },
+      "right_image": {
+        "path": "images\\sad\\image 16.jpg",
+        "category": "sad",
+        "filename": "image 16.jpg"
+      },
+      "gaze_distribution": {
+        "left": 0,
+        "right": 0,
+        "outside": 1.0
+      },
+      "emotions": {
+        "dominant": "happy",
+        "counts": {
+          "happy": 15,
+          "neutral": 5
+        },
+        "average_scores": {
+          "happy": 0.27585033501037454,
+          "sad": 0.014518438684756552,
+          "neutral": 0.26016290707932954,
+          "surprise": 0.27585033501037454,
+          "angry": 0.115898392562039,
+          "fear": 0.030523387428081063,
+          "disgust": 0.027196204225044856
+        }
+      }
+    },
+    {
+      "pair_id": 4,
+      "duration": 10.049254655838013,
+      "left_image": {
+        "path": "images\\neutral\\image15.jpg",
+        "category": "neutral",
+        "filename": "image15.jpg"
+      },
+      "right_image": {
+        "path": "images\\sad\\image20.jpg",
+        "category": "sad",
+        "filename": "image20.jpg"
+      },
+      "gaze_distribution": {
+        "left": 0,
+        "right": 0,
+        "outside": 1.0
+      },
+      "emotions": {
+        "dominant": "happy",
+        "counts": {
+          "happy": 15,
+          "neutral": 4
+        },
+        "average_scores": {
+          "happy": 0.2919288802109699,
+          "sad": 0.015364677905840524,
+          "neutral": 0.2212815903235621,
+          "surprise": 0.2919288802109699,
+          "angry": 0.12088000588933182,
+          "fear": 0.029364130513964266,
+          "disgust": 0.02925183494536146
+        }
+      }
+    },
+    {
+      "pair_id": 5,
+      "duration": 10.03180480003357,
+      "left_image": {
+        "path": "images\\angry\\image3.jpg",
+        "category": "angry",
+        "filename": "image3.jpg"
+      },
+      "right_image": {
+        "path": "images\\happy\\image8.jpg",
+        "category": "happy",
+        "filename": "image8.jpg"
+      },
+      "gaze_distribution": {
+        "left": 0,
+        "right": 0,
+        "outside": 1.0
+      },
+      "emotions": {
+        "dominant": "neutral",
+        "counts": {
+          "happy": 6,
+          "neutral": 13
+        },
+        "average_scores": {
+          "happy": 0.1178826033895484,
+          "sad": 0.006204347546818337,
+          "neutral": 0.6885535695985623,
+          "surprise": 0.1178826033895484,
+          "angry": 0.04636743104023093,
+          "fear": 0.011478409425802982,
+          "disgust": 0.011631035609488687
+        }
+      }
+    }
+  ],
+  "overall_emotions": {
+    "dominant": "happy",
+    "counts": {
+      "neutral": 36,
+      "surprise": 1,
+      "happy": 59,
+      "sad": 1
+    },
+    "average_scores": {
+      "angry": 0.09664245983578297,
+      "disgust": 0.023896584587215934,
+      "fear": 0.024719336730568156,
+      "happy": 0.22685957959560996,
+      "sad": 0.01655360595888261,
+      "surprise": 0.22991576630558763,
+      "neutral": 0.38141266698635273
+    }
+  },
+  "favorite_categories": {
+    "favorite": "happy",
+    "rankings": {
+      "happy": 0.0,
+      "angry": 0.0,
+      "neutral": 0.0,
+      "sad": 0.0
+    }
+  },
+  "session_duration": 53.21834063529968
+}
