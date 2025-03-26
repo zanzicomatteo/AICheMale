@@ -1,0 +1,49 @@
+{
+  "name": "emotion-eye-tracker",
+  "version": "1.0.0",
+  "description": "AI-powered eye tracking and emotion detection desktop application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-full": "node package.js"
+  },
+  "author": "Matteo Zanzico",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^24.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.emotion.eyetracker",
+    "productName": "Cazzi Volanti",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    },
+    "extraResources": [
+      {
+        "from": "python_dist/",
+        "to": "python_dist"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}

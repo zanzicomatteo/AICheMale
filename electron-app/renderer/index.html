@@ -1,0 +1,265 @@
+<!-- Save this file as renderer/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Eye Tracking & Emotion AI</title>
+    
+    <!-- Local TensorFlow.js - These will be downloaded and included in the app -->
+    <script src="./js/tensorflow.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .video-container {
+            position: relative;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        video, canvas {
+            width: 640px;
+            height: 480px;
+            border-radius: 8px;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .status-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .status-box p {
+            margin: 5px 0;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .start-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .stop-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .calibrate-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .export-btn {
+            background-color: #FF9800;
+            color: white;
+        }
+        .info-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .info-box h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .info-box ul {
+            padding-left: 20px;
+        }
+        .text-highlight {
+            color: #2196F3;
+            font-weight: bold;
+        }
+        .emotions-container {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .emotion-bars {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .emotion-bar {
+            height: 24px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .emotion-bar-fill {
+            height: 100%;
+            transition: width 0.5s ease-out;
+        }
+        .emotion-bar-label {
+            position: absolute;
+            left: 8px;
+            top: 2px;
+            color: #000;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 0 2px white;
+        }
+        .emotion-bar-value {
+            position: absolute;
+            right: 8px;
+            top: 2px;
+            color: #000;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 0 2px white;
+        }
+        .detection-log {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            max-height: 100px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .log-entry {
+            margin: 3px 0;
+        }
+        .emotion-colors {
+            --happy-color: #4CAF50;
+            --sad-color: #2196F3;
+            --angry-color: #f44336;
+            --surprised-color: #FF9800;
+            --disgusted-color: #9C27B0;
+            --fearful-color: #607D8B;
+            --neutral-color: #9E9E9E;
+            --contempt-color: #795548;
+            --bored-color: #8D6E63;
+            --confused-color: #FF5722;
+            --anxious-color: #FFC107;
+            --excited-color: #00BCD4;
+            --proud-color: #3F51B5;
+            --shameful-color: #9575CD;
+            --guilty-color: #78909C;
+        }
+    </style>
+</head>
+<body class="emotion-colors">
+    <div class="container">
+        <h1>Advanced Eye Tracking & Emotion AI</h1>
+        
+        <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas"></canvas>
+            <div class="status-box">
+                <p>Looking at: (<span id="gaze-x">0</span>, <span id="gaze-y">0</span>)</p>
+                <p>Primary emotion: <span id="primary-emotion" class="text-highlight">Loading...</span></p>
+                <p>Confidence: <span id="emotion-confidence">0</span>%</p>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="start-btn" class="start-btn">Start Tracking</button>
+            <button id="stop-btn" class="stop-btn" disabled>Stop Tracking</button>
+            <button id="calibrate-btn" class="calibrate-btn" disabled>Calibrate Gaze</button>
+            <button id="export-btn" class="export-btn" disabled>Export Session Data</button>
+        </div>
+        
+        <div class="emotions-container">
+            <h3>Emotion Analysis</h3>
+            <div id="emotion-bars" class="emotion-bars">
+                <!-- Emotion bars will be inserted here -->
+            </div>
+            <div class="detection-log">
+                <div id="log-container">
+                    <div class="log-entry">System initialized. Desktop version ready.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h2>Advanced AI Emotion Detection</h2>
+            <p>This desktop application uses artificial intelligence to track your eyes and analyze facial expressions for emotion detection:</p>
+            <ul>
+                <li><strong>Eye Tracking:</strong> Monitors pupil movement to determine where you're looking on screen</li>
+                <li><strong>Facial Analysis:</strong> Detects 15 different emotional states with confidence scores</li>
+                <li><strong>Real-time Visualization:</strong> See your emotional state represented as dynamic bars</li>
+                <li><strong>AI Processing:</strong> Uses neural networks for precise emotion recognition</li>
+                <li><strong>Offline Operation:</strong> All processing happens locally on your computer</li>
+            </ul>
+            <p>
+                The AI model can detect the following emotions:
+                <span style="color: var(--happy-color);">happiness</span>,
+                <span style="color: var(--sad-color);">sadness</span>,
+                <span style="color: var(--angry-color);">anger</span>,
+                <span style="color: var(--surprised-color);">surprise</span>,
+                <span style="color: var(--disgusted-color);">disgust</span>,
+                <span style="color: var(--fearful-color);">fear</span>,
+                <span style="color: var(--neutral-color);">neutral</span>,
+                <span style="color: var(--contempt-color);">contempt</span>,
+                <span style="color: var(--bored-color);">boredom</span>,
+                <span style="color: var(--confused-color);">confusion</span>,
+                <span style="color: var(--anxious-color);">anxiety</span>,
+                <span style="color: var(--excited-color);">excitement</span>,
+                <span style="color: var(--proud-color);">pride</span>,
+                <span style="color: var(--shameful-color);">shame</span>, and
+                <span style="color: var(--guilty-color);">guilt</span>.
+            </p>
+        </div>
+    </div>
+
+    <script src="./js/app.js"></script>
+</body>
+</html>
